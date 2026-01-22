@@ -147,3 +147,186 @@ Some languages use **both** methods 👇
 
 ---
 
+## Compiler vs Interpreter in **JavaScript** (How it *actually* works)
+
+JavaScript is **not purely interpreted** and **not purely compiled**.
+Modern JavaScript engines use a **HYBRID MODEL**:
+👉 **Interpreter + JIT (Just-In-Time) Compiler**
+
+Let’s break this down clearly.
+
+---
+
+## 1️⃣ Old Myth (Not True Anymore)
+
+> “JavaScript is an interpreted language”
+
+❌ **Outdated**
+
+Modern JS engines **compile JavaScript at runtime** for speed.
+
+---
+
+## 2️⃣ How JavaScript Runs Today (Real Pipeline)
+
+Example engines:
+
+* **V8** (Chrome, Node.js)
+* **SpiderMonkey** (Firefox)
+* **JavaScriptCore** (Safari)
+
+### 🔄 Execution Flow (V8 example)
+
+```
+JavaScript Source Code
+        ↓
+     Parser
+        ↓
+   AST (Abstract Syntax Tree)
+        ↓
+   Bytecode
+        ↓
+ Interpreter (Ignition)
+        ↓
+ JIT Compiler (TurboFan)
+        ↓
+ Optimized Machine Code
+```
+
+---
+
+## 3️⃣ Interpreter Role in JavaScript
+
+### 🔹 What the Interpreter Does
+
+* Converts JS code into **bytecode**
+* Executes bytecode **line by line**
+* Fast startup time
+
+### 🔹 Example
+
+```js
+let x = 10;
+x = x + 5;
+console.log(x);
+```
+
+The interpreter:
+
+* Reads
+* Converts to bytecode
+* Executes immediately
+
+### ⚠️ Downside
+
+* Slower for loops / heavy calculations
+
+---
+
+## 4️⃣ Compiler Role (JIT Compiler)
+
+### 🔹 What JIT Does
+
+* Watches running code
+* Finds **hot code** (frequently executed)
+* Compiles it into **native machine code**
+* Replaces interpreted execution
+
+### 🔹 Example
+
+```js
+for (let i = 0; i < 1_000_000; i++) {
+  sum += i;
+}
+```
+
+🔹 Engine behavior:
+
+1. First runs via interpreter
+2. Detects loop is hot
+3. JIT compiles it
+4. Executes at near-C speed 🚀
+
+---
+
+## 5️⃣ Interpreter vs Compiler in JavaScript
+
+| Feature      | Interpreter       | JIT Compiler |
+| ------------ | ----------------- | ------------ |
+| Execution    | Line-by-line      | Machine code |
+| Speed        | Slower            | Very fast    |
+| Startup      | Fast              | Slight delay |
+| Optimization | None              | Aggressive   |
+| Used for     | Initial execution | Hot paths    |
+
+➡️ JavaScript **uses BOTH**
+
+---
+
+## 6️⃣ Is JavaScript Compiled Before Execution?
+
+✅ **Yes, partially**
+
+* JS is compiled to **bytecode**
+* Then **JIT compiled** to native code
+* But compilation happens **at runtime**, not before execution like C/C++
+
+---
+
+## 7️⃣ JavaScript vs Traditional Compiled Languages
+
+| Language   | Compilation Time | Output                 |
+| ---------- | ---------------- | ---------------------- |
+| C / C++    | Before execution | Native executable      |
+| Java       | Before + runtime | Bytecode + JVM         |
+| JavaScript | Runtime (JIT)    | Machine code in memory |
+
+⚠️ JS **does NOT produce executable files**
+
+---
+
+## 8️⃣ Security Perspective (Important)
+
+### 🔐 Interpreter Risks
+
+* `eval()`
+* `new Function()`
+* Dynamic code execution
+* DOM-based XSS
+
+```js
+eval(userInput); // 🔥 dangerous
+```
+
+### 🔐 JIT Security Issues
+
+* JIT spraying
+* Type confusion
+* Spectre-style side-channel attacks
+
+➡️ Browsers sandbox JIT heavily for this reason.
+
+---
+
+## 9️⃣ Why JavaScript Uses Hybrid Model
+
+✔ Fast startup
+✔ Dynamic typing support
+✔ Runtime optimization
+✔ Portable across platforms
+
+---
+
+## 🔥 Final Verdict
+
+**JavaScript is:**
+
+> 🚀 *Interpreted first, then JIT compiled*
+
+✔ Not purely interpreted
+✔ Not traditionally compiled
+✔ Optimized dynamically
+
+---
+
+
